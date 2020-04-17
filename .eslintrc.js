@@ -1,20 +1,41 @@
 module.exports = {
-  root: true,
-  env: {
-    node: true
+  "root": true,
+  "env": {
+    "node": true
   },
-  extends: [
+  "extends": [
     "plugin:vue/essential",
     "eslint:recommended",
     "@vue/typescript/recommended",
     "@vue/prettier",
     "@vue/prettier/@typescript-eslint"
   ],
-  parserOptions: {
-    ecmaVersion: 2020
+  "ignorePatterns": ["src/workers/mainWorker.ts"],
+  "parserOptions": {
+    "ecmaVersion": 2020
   },
-  rules: {
-    "no-console": process.env.NODE_ENV === "production" ? "warn" : "off",
-    "no-debugger": process.env.NODE_ENV === "production" ? "warn" : "off"
+  "overrides": [
+    {
+      "files": ["*.ts", "*.tsx", "*.vue"],
+      "rules": {
+        "@typescript-eslint/member-ordering": "off",
+        "@typescript-eslint/interface-name-prefix": ["error"],
+        "@typescript-eslint/no-use-before-define": "off",
+        "@typescript-eslint/explicit-function-return-type": [
+          "off",
+          {
+            "allowExpressions": "true"
+          }
+        ],
+        "@typescript-eslint/camelcase": "off",
+        "@typescript-eslint/consistent-type-definitions": "off",
+        "@typescript-eslint/no-explicit-any": "off",
+        "@typescript-eslint/ban-ts-ignore": "off"
+      }
+    }
+  ],
+  "rules": {
+    "no-console": "off",
+    "no-debugger": "off"
   }
-};
+}
