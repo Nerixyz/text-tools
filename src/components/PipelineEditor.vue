@@ -1,9 +1,9 @@
 <template>
   <v-container fluid>
     <h2 class="mb-3 ml-1">Pipeline</h2>
-    <v-expansion-panels inset>
+    <v-expansion-panels hover inset>
       <v-expansion-panel v-for="item in state.pipe" :key="item.id">
-        <v-expansion-panel-header>{{ item.name }}</v-expansion-panel-header>
+        <v-expansion-panel-header :color="item.color">{{ item.name }}</v-expansion-panel-header>
         <v-expansion-panel-content>
           <v-col>
             <div v-if="item.descriptors">
@@ -31,7 +31,7 @@
         </v-expansion-panel-content>
       </v-expansion-panel>
     </v-expansion-panels>
-    <v-menu offset-y transition="scroll-y-transition">
+    <v-menu offset-y max-width="auto">
       <template v-slot:activator="{ on }">
         <v-btn v-on="on" outlined color="primary" class="mt-2" block>
           <v-icon>mdi-plus</v-icon>
@@ -39,9 +39,23 @@
         </v-btn>
       </template>
       <v-list>
-        <v-list-item v-for="(item, index) in FrontPipelines" :key="index" @click="() => addItem(item)">
-          <v-list-item-title>{{ item.name }}</v-list-item-title>
-        </v-list-item>
+        <div v-for="(item, index) in FrontPipelines" :key="index">
+          <v-list-item v-if="Array.isArray(item)">
+            <v-btn
+              class="flex-grow-1"
+              text
+              v-for="(subItem, subIndex) in item"
+              :key="subIndex"
+              :color="subItem.color"
+              @click="() => addItem(subItem)"
+            >
+              {{ subItem.name }}
+            </v-btn>
+          </v-list-item>
+          <v-list-item v-else @click="() => addItem(item)">
+            <v-list-item-title>{{ item.name }}</v-list-item-title>
+          </v-list-item>
+        </div>
       </v-list>
     </v-menu>
   </v-container>
