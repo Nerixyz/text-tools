@@ -10,10 +10,12 @@ export default function executeWorker(input: string, pipeline: PipelineItem[]): 
     const toMessage = { message: input, pipeline };
 
     return new Promise<string>((resolve, reject) => {
-      console.log('exec', 'start', activeWorker);
-      activeWorker?.postMessage(JSON.stringify(toMessage));
+      if (!activeWorker) {
+        reject({ error: 'No Worker' });
+        return;
+      }
+      activeWorker.postMessage(JSON.stringify(toMessage));
       const onMessage = ({ data }: MessageEvent) => {
-        console.log('exec', 'message');
         const input = JSON.parse(data);
         if (input.error) {
           reject({ error: input.error, lastPipe: input.lastPipe });
@@ -28,10 +30,10 @@ export default function executeWorker(input: string, pipeline: PipelineItem[]): 
         reject({ error });
         activeWorker?.removeEventListener('error', onError);
       };
-      activeWorker?.addEventListener('message', onMessage);
-      activeWorker?.addEventListener('error', onError);
+      activeWorker.addEventListener('message', onMessage);
+      activeWorker.addEventListener('error', onError);
     });
-  }catch(e) {
-    return Promise.reject({error: e});
+  } catch (e) {
+    return Promise.reject({ error: e });
   }
 }
