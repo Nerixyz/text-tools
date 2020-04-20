@@ -16,4 +16,5 @@ Use `npm run serve` to start the development server.
 - Add a **better Pipeline-Add menu**.
 - Add a **small pipeline view** next to the "Edit Pipeline" button.
 - Ability to **set the delay** between the input and output.
+- Split this mess up in **smaller components**.
 
