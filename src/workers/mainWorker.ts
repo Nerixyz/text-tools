@@ -5,7 +5,7 @@ import { expectString } from '@/pipeline/utilities';
 import flate from '@/pipeline/flate';
 import gzip from '@/pipeline/gzip';
 
-declare var self: Worker;
+declare const self: Worker;
 
 type WorkerData = {
   message: string;

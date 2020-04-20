@@ -10,6 +10,7 @@ module.exports = {
     "@vue/prettier",
     "@vue/prettier/@typescript-eslint"
   ],
+  "ignorePatterns": ["src/workers/mainWorker.ts"],
   "parserOptions": {
     "ecmaVersion": 2020
   },
