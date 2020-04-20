@@ -51,15 +51,18 @@ export function readPipeline(): FrontPipelineItem[] {
   const saved = getQueryParam('pipeline');
   if (!saved) return [];
   try {
+    let counter = 0;
     return JSON.parse(atob(decodeURIComponent(saved)))
       .map((itemIn: any) => {
-        const found = FrontPipelines.find(p => p.typeId === itemIn.id);
+        const flat = FrontPipelines.flat();
+        const found = flat.find(p => p.typeId === itemIn.id);
         if (!found) {
           console.error('Failed to parse', itemIn);
           return null;
         }
         return {
           ...found,
+          id: counter++,
           options: itemIn.options,
         };
       })
