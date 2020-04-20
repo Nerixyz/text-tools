@@ -25,15 +25,11 @@ const Pipes: { [x in PipelineItemType]: PipelineFn } = {
   gzip,
   url,
 };
-console.log(this);
 
 self.onmessage = async ({ data }: { data: WorkerData }) => {
-  console.log('onMessage', data);
   if (typeof data !== 'string') return;
   const input = JSON.parse(data);
-  console.log(input);
   if (typeof input.message !== 'string') return;
-  console.log(input.message);
   const post = (data: any) => self.postMessage(JSON.stringify(data));
 
   let lastPipe = 'none';
@@ -43,10 +39,8 @@ self.onmessage = async ({ data }: { data: WorkerData }) => {
     let currentValue: PipelineData = input.message;
     for (const item of pipeline) {
       lastPipe = `${item.type} > ${item.direction === PipelineItemDirection.Encode ? 'encode' : 'decode'}`;
-      console.log(lastPipe);
       currentValue = await Pipes[item.type](currentValue, item.direction, item.options);
     }
-    console.log('onMessage', 'done - post');
 
     post({ message: expectString(currentValue) });
   } catch (e) {
