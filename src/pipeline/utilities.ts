@@ -2,18 +2,15 @@ import { FrontPipelineItem, PipelineData } from '@/pipeline/types';
 import { Buffer } from 'buffer';
 import { FrontPipelines } from '@/pipeline/FrontPipelines';
 
-export function expectString(data: PipelineData ): string {
-  if(typeof data === 'string')
-    return data;
+export function expectString(data: PipelineData): string {
+  if (typeof data === 'string') return data;
 
   return data.toString();
 }
 
 export function expectBuffer(data: PipelineData | Uint8Array): Buffer {
-  if(typeof data === 'string')
-    return Buffer.from(data);
-  if(Buffer.isBuffer(data))
-    return data;
+  if (typeof data === 'string') return Buffer.from(data);
+  if (Buffer.isBuffer(data)) return data;
 
   return Buffer.from(data);
 }
@@ -76,4 +73,3 @@ export function readPipeline(): FrontPipelineItem[] {
 export function writePipeline(pipe: FrontPipelineItem[]) {
   updateUrl(btoa(JSON.stringify(pipe.map(x => ({ id: x.typeId, options: x.options })))));
 }
-

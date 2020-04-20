@@ -23,15 +23,15 @@ const Pipes: { [x in PipelineItemType]: PipelineFn } = {
   base64,
   flate,
   gzip,
-  url
+  url,
 };
 console.log(this);
 
 self.onmessage = async ({ data }: { data: WorkerData }) => {
   console.log('onMessage', data);
-  if(typeof data !== 'string') return;
+  if (typeof data !== 'string') return;
   const input = JSON.parse(data);
-  console.log(input)
+  console.log(input);
   if (typeof input.message !== 'string') return;
   console.log(input.message);
   const post = (data: any) => self.postMessage(JSON.stringify(data));

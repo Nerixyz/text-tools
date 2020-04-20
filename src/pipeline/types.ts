@@ -16,7 +16,7 @@ export enum PipelineItemType {
   Hex = 'hex',
   Flate = 'flate',
   Gzip = 'gzip',
-  Url = 'url'
+  Url = 'url',
 }
 
 export type PipelineData = Buffer | string;
