@@ -29,8 +29,8 @@
       type=""
       label="Output"
       readonly
-      v-bind:loading="state.loading"
-      v-bind:error="state.isError"
+      :loading="state.loading"
+      :error="state.isError"
     ></v-textarea>
     <v-row>
       <v-col>
@@ -78,7 +78,8 @@
             pipeline.data.map(x => x.toItem()),
           );
         } catch (e) {
-          state.output = e.message;
+          console.log(e);
+          state.output = prettifyError(e);
           state.isError = true;
         }
         state.loading = false;
@@ -112,6 +113,23 @@
       PipelineEditor,
     },
   });
+
+  function prettifyError(e: Error | string | any): string {
+    let mainStr;
+    if (typeof e === 'string') {
+      mainStr = e;
+    } else if (e.message) {
+      mainStr = `${e.name} / ${e.message}\n${e.stack ?? 'No stack.'}`;
+    } else {
+      const str = e.toString();
+      if (str !== '[object Object]') {
+        mainStr = str;
+      } else {
+        mainStr = JSON.stringify(e, null, 2);
+      }
+    }
+    return `An error occurred:\n${mainStr}\n\nIf you believe this is an issue with this Website, report it on GitHub.`;
+  }
 
   /**
    * Thanks Hackernoon FeelsOkayMan

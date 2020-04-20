@@ -26,13 +26,17 @@ const Pipes: { [x in PipelineItemType]: PipelineFn } = {
 
 self.onmessage = async ({ data }: { data: WorkerData }) => {
   if (typeof data.message !== 'string') return;
+  try {
 
-  const pipeline: PipelineItem[] = data.pipeline;
+    const pipeline: PipelineItem[] = data.pipeline;
 
-  let currentValue: PipelineData = data.message;
-  for(const item of pipeline) {
-    currentValue = await Pipes[item.type](currentValue, item.direction, item.options);
+    let currentValue: PipelineData = data.message;
+    for (const item of pipeline) {
+      currentValue = await Pipes[item.type](currentValue, item.direction, item.options);
+    }
+
+    self.postMessage({ message: expectString(currentValue) });
+  }catch(e) {
+    self.postMessage({...(typeof e === 'object' ? e : {str: e}),error: e});
   }
-
-  self.postMessage({ message: expectString(currentValue) });
 };
