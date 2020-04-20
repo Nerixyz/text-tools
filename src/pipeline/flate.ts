@@ -2,7 +2,7 @@ import { FrontPipelineItemDescriptors, PipelineData, PipelineItemDirection } fro
 import { expectBuffer } from '@/pipeline/utilities';
 import { deflate, inflate } from 'pako';
 
-export default function(input: PipelineData, direction: PipelineItemDirection, options: {} = {}): PipelineData {
+export default function(input: PipelineData, direction: PipelineItemDirection, options: {raw?: boolean} = {}): PipelineData {
   if (direction === PipelineItemDirection.Encode) {
     return expectBuffer(deflate(expectBuffer(input), options));
   } else {
