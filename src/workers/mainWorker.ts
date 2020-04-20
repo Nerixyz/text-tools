@@ -26,16 +26,18 @@ const Pipes: { [x in PipelineItemType]: PipelineFn } = {
 
 self.onmessage = async ({ data }: { data: WorkerData }) => {
   if (typeof data.message !== 'string') return;
+  let lastPipe = 'none';
   try {
     const pipeline: PipelineItem[] = data.pipeline;
 
     let currentValue: PipelineData = data.message;
     for (const item of pipeline) {
+      lastPipe = `${item.type} > ${item.direction === PipelineItemDirection.Encode ? 'encode' : 'decode'}`;
       currentValue = await Pipes[item.type](currentValue, item.direction, item.options);
     }
 
     self.postMessage({ message: expectString(currentValue) });
   } catch (e) {
-    self.postMessage({ ...(typeof e === 'object' ? e : { str: e }), error: e });
+    self.postMessage({ ...(typeof e === 'object' ? e : { str: e }), error: e, lastPipe });
   }
 };

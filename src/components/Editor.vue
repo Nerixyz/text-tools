@@ -78,8 +78,8 @@
             pipeline.data.map(x => x.toItem()),
           );
         } catch (e) {
-          console.log(e);
-          state.output = prettifyError(e);
+          console.error(e, e.error);
+          state.output = prettifyError(e.error, e.lastPipe);
           state.isError = true;
         }
         state.loading = false;
@@ -114,7 +114,7 @@
     },
   });
 
-  function prettifyError(e: Error | string | any): string {
+  function prettifyError(e: Error | string | any, lastPipe: string | undefined): string {
     let mainStr;
     if (typeof e === 'string') {
       mainStr = e;
@@ -128,7 +128,9 @@
         mainStr = JSON.stringify(e, null, 2);
       }
     }
-    return `An error occurred:\n${mainStr}\n\nIf you believe this is an issue with this Website, report it on GitHub.`;
+    return `An error occurred:\n${
+      lastPipe ? `LastPipe: ${lastPipe}\n` : ''
+    }${mainStr}\n\nIf you believe this is an issue with this Website, report it on GitHub.`;
   }
 
   /**

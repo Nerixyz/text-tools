@@ -10,16 +10,16 @@ export default function executeWorker(input: string, pipeline: PipelineItem[]): 
   return new Promise<string>((resolve, reject) => {
     const onMessage = ({ data }: MessageEvent) => {
       if (data.error) {
-        reject(data.error);
+        reject({error: data.error, lastPipe: data.lastPipe});
       } else if (typeof data.message !== 'undefined') {
         resolve(data.message);
       } else {
-        reject(new Error('No message in event.'));
+        reject({error: new Error('No message in event.')});
       }
       activeWorker?.removeEventListener('message', onMessage);
     };
     const onError = ({ error }: ErrorEvent) => {
-      reject(error);
+      reject({error});
       activeWorker?.removeEventListener('error', onError);
     };
     activeWorker?.addEventListener('message', onMessage);
