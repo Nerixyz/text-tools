@@ -40,7 +40,7 @@
         </v-btn>
       </v-col>
     </v-row>
-    <v-dialog v-model="pipeline.isShown" @click:outside="editorClose" width="30vw">
+    <v-dialog v-model="pipeline.isShown" @click:outside="editorClose" width="min(max(30vw, 500px), 95vw)">
       <v-card outlined>
         <PipelineEditor v-model="pipeline.data" />
       </v-card>
