@@ -9,11 +9,11 @@ export default function executeWorker(input: string, pipeline: PipelineItem[]): 
   activeWorker.postMessage({ message: input, pipeline });
   return new Promise<string>((resolve, reject) => {
     const onMessage = ({ data }: MessageEvent) => {
-      if(data.error) {
+      if (data.error) {
         reject(data.error);
-      }else if(typeof data.message !== 'undefined') {
+      } else if (typeof data.message !== 'undefined') {
         resolve(data.message);
-      }else {
+      } else {
         reject(new Error('No message in event.'));
       }
       activeWorker?.removeEventListener('message', onMessage);

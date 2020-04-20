@@ -21,13 +21,12 @@ const Pipes: { [x in PipelineItemType]: PipelineFn } = {
   hex,
   base64,
   flate,
-  gzip
+  gzip,
 };
 
 self.onmessage = async ({ data }: { data: WorkerData }) => {
   if (typeof data.message !== 'string') return;
   try {
-
     const pipeline: PipelineItem[] = data.pipeline;
 
     let currentValue: PipelineData = data.message;
@@ -36,7 +35,7 @@ self.onmessage = async ({ data }: { data: WorkerData }) => {
     }
 
     self.postMessage({ message: expectString(currentValue) });
-  }catch(e) {
-    self.postMessage({...(typeof e === 'object' ? e : {str: e}),error: e});
+  } catch (e) {
+    self.postMessage({ ...(typeof e === 'object' ? e : { str: e }), error: e });
   }
 };
