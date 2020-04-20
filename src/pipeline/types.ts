@@ -16,6 +16,7 @@ export enum PipelineItemType {
   Hex = 'hex',
   Flate = 'flate',
   Gzip = 'gzip',
+  Url = 'url'
 }
 
 export type PipelineData = Buffer | string;
@@ -32,7 +33,7 @@ export type FrontPipelineItem = {
   typeId: number;
   id?: number;
   name: string;
-  hasOptions?: boolean;
+  color: string;
   options?: {};
   toItem: () => PipelineItem;
   descriptors?: FrontPipelineItemDescriptors;
