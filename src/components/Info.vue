@@ -10,7 +10,7 @@
       <a target="_blank" href="https://github.com/nodeca/pako">Pako</a>, and
       <a target="_blank" href="https://github.com/feross/buffer">Buffer</a>.
       <p />
-      <v-btn outlined href="https://github.com/Nerixyz" target="_blank">
+      <v-btn outlined href="https://github.com/Nerixyz/text-tools" target="_blank">
         <v-icon>mdi-github</v-icon>
         GitHub
       </v-btn>
