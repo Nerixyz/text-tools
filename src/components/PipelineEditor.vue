@@ -66,16 +66,16 @@
       Draggable,
     },
     setup(props, { emit }) {
-      let internalCounter = 0;
       const state = reactive<{ pipe: FrontPipelineItem[] }>({
         pipe: props.pipeline,
       });
+      let internalCounter = state.pipe.length;
       const change = (event: any) => {
         emit('pipeline', state.pipe);
         return true;
       };
       const addItem = (item: FrontPipelineItem) => {
-        const clone = { ...item };
+        const clone = { ...item, options: item.options ? { ...item.options } : void 0 };
         clone.id = internalCounter++;
         state.pipe.push(clone);
         emit('pipeline', state.pipe);
