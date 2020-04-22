@@ -1,5 +1,6 @@
 import { FrontPipelineItem, PipelineItem, PipelineItemDirection, PipelineItemType } from '@/pipeline/types';
 import { DeflateOptionDescriptors, InflateOptionDescriptors } from '@/pipeline/flate';
+import { JsonOptionDescriptors } from '@/pipeline/json';
 
 function makeItem(type: PipelineItemType, direction: PipelineItemDirection, options: any = {}): PipelineItem {
   return {
@@ -100,4 +101,25 @@ export const FrontPipelines: Array<FrontPipelineItem | FrontPipelineItem[]> = [
       color: 'indigo darken-1',
     },
   ],
+  [
+    {
+      typeId: pType(8, 1),
+      name: 'JSON Minify',
+      options: {},
+      toItem() {
+        return makeItem(PipelineItemType.Json, PipelineItemDirection.Encode, this.options);
+      },
+      color: 'blue lighten-1',
+    },
+    {
+      typeId: pType(9, 1),
+      name: 'JSON Beautify',
+      options: {tabWidth: 2},
+      descriptors: JsonOptionDescriptors,
+      toItem() {
+        return makeItem(PipelineItemType.Json, PipelineItemDirection.Decode, this.options);
+      },
+      color: 'blue darken-1',
+    },
+  ]
 ];

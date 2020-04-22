@@ -5,6 +5,7 @@ import { expectString } from '@/pipeline/utilities';
 import flate from '@/pipeline/flate';
 import gzip from '@/pipeline/gzip';
 import url from '@/pipeline/url';
+import json from '@/pipeline/json';
 
 declare const self: Worker;
 
@@ -24,6 +25,7 @@ const Pipes: { [x in PipelineItemType]: PipelineFn } = {
   flate,
   gzip,
   url,
+  json,
 };
 
 self.onmessage = async ({ data }: { data: WorkerData }) => {
